@@ -14,12 +14,18 @@ class SQLestate:
             return self.cursor.execute(
                 "INSERT INTO `ad` (`brand`,`model_year`,`mileage`,"
                 "`cost`,`number_phone`,`allow`, `allow_admin`, `tg_id`) VALUES(?,?,?,?,?,?,?,?)",
-                (brand, model_year, mileage, cost, number_phone, allow, allow_admin, tg_id))
+                (brand.lower(), model_year, mileage, cost, number_phone, allow, allow_admin, tg_id))
 
     def show_all_add_(self):
         """Показать все объявления для юзеров"""
         with self.connection:
             return self.cursor.execute("SELECT * FROM `ad` WHERE `allow_admin` = ? and `allow` = ?",
+                                       (True, True,)).fetchall()
+
+    def show_all_name_(self):
+        """Показать все объявления для юзеров"""
+        with self.connection:
+            return self.cursor.execute("SELECT `brand` FROM `ad` WHERE `allow_admin` = ? and `allow` = ?",
                                        (True, True,)).fetchall()
 
     def show_all_inline_(self, brand):
